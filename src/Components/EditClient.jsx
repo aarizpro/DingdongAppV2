@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const EditClient = ({show, handleClose, clients}) => {
-    const url = "http://localhost:5000/";
+    const url = "http://3.111.150.119/";
     const [custName, setCustName] = useState('');
     const [custMob, setCustMob] = useState('');
     const [custEmail, setCustEmail] = useState('');

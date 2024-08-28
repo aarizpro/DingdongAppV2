@@ -19,7 +19,7 @@ const AddCustomer = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [search, setSearch] = useState("");
-  const url = "http://localhost:5000/";
+  const url = "http://3.111.150.119/";
  //const url ="https://allapi-4fmi.onrender.com/";
   
   useEffect(() => {

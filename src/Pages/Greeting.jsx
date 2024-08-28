@@ -13,8 +13,8 @@ const Greeting = () => {
 //  const url ="https://allapi-4fmi.onrender.com/";
 //  const url1 = "https://awsupload.onrender.com/";
 
-  const url = "http://localhost:5000/";
-  const url1 = "http://localhost:5000/";
+const url = "http://3.111.150.119/";
+const url1 = "http://3.111.150.119/";
 
   useEffect(() => {
     fetchProfile();

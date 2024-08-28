@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import axios from 'axios';
 const Courier = ({courier }) => {
-    const url = "http://localhost:5000/";
+    const url = "http://3.111.150.119/";
   //const url ="https://allapi-4fmi.onrender.com/";
   const courierDelete=async()=>{
     try {

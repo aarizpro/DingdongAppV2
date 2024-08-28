@@ -67,7 +67,7 @@ const AutoBooking = () => {
   const sAwb = useRef(null);
   const sAmount = useRef(null);
   //const url = "http://localhost:5000/";
-  const url = "http://localhost:5000/";
+  const url = "http://3.111.150.119/";
  //const url ="https://allapi-4fmi.onrender.com/";
  const navigate =useNavigate();
   // Function to fetch data for sender's address
@@ -410,7 +410,7 @@ const AutoBooking = () => {
   };
 
    const generateImage = async() => {
-    const url1 = "http://localhost:5000/";
+    const url1 = "http://3.111.150.119/";
     //const url1="https://awsupload.onrender.com/";
     if (printRef.current) {
       try {
