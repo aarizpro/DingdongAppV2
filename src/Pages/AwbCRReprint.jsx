@@ -22,7 +22,7 @@ import stcourier from '../assets/ST Courier.jpg';
 import trackon from '../assets/trackon.png';
 import xpressbees from '../assets/xpressbees.jpeg';
 
-const AwbReprint = () => {
+const AwbCRReprint = () => {
   const printRef = useRef();
   
  // const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
@@ -50,18 +50,18 @@ const AwbReprint = () => {
   
   const columns = [
     { name: 'Date', selector: row => row.createdAt, sortable: true },
-    { name: 'Airway Bill', selector: row => row.airwayBill, sortable: true },
-    { name: 'From Mobile', selector: row => row.fromMob, sortable: true },
-    { name: 'From Name', selector: row => row.fromName, sortable: true },
+    { name: 'Airway Bill', selector: row => row.awbno, sortable: true },
+    { name: 'From Mobile', selector: row => row.crcustMob, sortable: true },
+    { name: 'From Name', selector: row => row.crcustName, sortable: true },
     { name: 'To Mobile', selector: row => row.toMob, sortable: true },
     { name: 'To Name', selector: row => row.toName, sortable: true },
-    { name: 'Courier Name', selector: row => row.courierName, sortable: true },
+    { name: 'Courier Name', selector: row => row.courier, sortable: true },
   ];
+  //const url = "https://free.dingdong.co.in/";
   const url="https://v2.dingdong.co.in/"
-  //const url ="https://allapi-4fmi.onrender.com/";
   const fetchCurrentDateBookings = async () => {
     try {
-      const response = await axios.get(`${url}api/booking?sortBy[]=createdAt&sortOrder[]=desc`);
+      const response = await axios.get(`${url}api/crbook?sortBy[]=createdAt&sortOrder[]=desc`);
       const allBookings = response.data;
       setBookings(allBookings);
     } catch (error) {
@@ -194,16 +194,16 @@ const AwbReprint = () => {
   const fetchAwb = async () => {
     
     try {
-      const response = await axios.get(`${url}api/booking/search?field[]=airwayBill&value[]=${awbNo}`);
+      const response = await axios.get(`${url}api/crbook/search?field[]=awbno&value[]=${awbNo}`);
       if (response.data.length > 0) {
-        setAwbNo(response.data[0].airwayBill);
-        setCourierName(response.data[0].courierName);
-        setSenderMobile(response.data[0].fromMob);
-        setSenderName(response.data[0].fromName);
-        setFromAddr(response.data[0].fromAddr);
-        setFromPincode(response.data[0].fromPincode);
-        setFromEmail(response.data[0].fromEmail);
-        setAwbNo1(response.data[0].airwayBill);
+        setAwbNo(response.data[0].awbno);
+        setCourierName(response.data[0].courier);
+        setSenderMobile(response.data[0].crcustMob);
+        setSenderName(response.data[0].crcustName);
+        setFromAddr(response.data[0].crcustAddr);
+        setFromPincode(response.data[0].crcustPincode);
+        setFromEmail(response.data[0].crcustEmail);
+        setAwbNo1(response.data[0].awbno);
         setReceiverMobile(response.data[0].toMob);
         setReceiverName(response.data[0].toName);
         setToAddr(response.data[0].toAddr);
@@ -212,7 +212,7 @@ const AwbReprint = () => {
         
         setWeight(response.data[0].weight);
         setQuantity(response.data[0].quantity);
-        setShipmentType(response.data[0].shipType);
+        setShipmentType("D/ND");
         setAmount(response.data[0].amount);
 
         toast.success('AWB Found');
@@ -408,4 +408,4 @@ const showAwb=async()=>{
   );
 };
 
-export default AwbReprint;
+export default AwbCRReprint;

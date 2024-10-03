@@ -7,7 +7,7 @@ const Welcome = () => {
     const [instanceId,setInstanceID]= useState("");
     const [accessToken,setAccessToken]= useState("");
     const [message,setMessage]= useState("Welcome to Dingdong Courier We are Happy to Serve you...");
-    const url = "http://3.111.150.119/";
+    const url="https://v2.dingdong.co.in/"
    //const url ="https://allapi-4fmi.onrender.com/";
   
     useEffect(() => {
@@ -27,7 +27,7 @@ const Welcome = () => {
       const handleClick = async () => {
         try {
           const media_url='https://dingdongcourier.s3.ap-south-1.amazonaws.com/welcome.jpg';
-          const response = await fetch(`https://bot.betablaster.in/api/send?number=91${mobNo}&type=media&message=${message}&media_url=${media_url}&instance_id=${instanceId}&access_token=${accessToken}`, {
+          const response = await fetch(`https://a1.betablaster.in/api/send?number=91${mobNo}&type=media&message=${message}&media_url=${media_url}&instance_id=${instanceId}&access_token=${accessToken}`, {
             method: 'GET',
           });
           console.log(response.data);

@@ -3,40 +3,43 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const EditClient = ({show, handleClose, clients}) => {
+const EditCrClient = ({show, handleClose, clients}) => {
+    //const url = "https://free.dingdong.co.in/";
     const url="https://v2.dingdong.co.in/"
     const [custName, setCustName] = useState('');
     const [custMob, setCustMob] = useState('');
     const [custEmail, setCustEmail] = useState('');
     const [custAddr, setCustAddr] = useState('');
     const [custPincode, setCustPincode] = useState('');
+    const [custCode, setCustCode] = useState('');
     useEffect(() => {
         if (clients) {
-            setCustName(clients.custName);
-            setCustEmail(clients.custEmail);
-            setCustAddr(clients.custAddr);
-            setCustMob(clients.custMob);
-            setCustPincode(clients.custPincode);
+            setCustName(clients.crcustName);
+            setCustEmail(clients.crcustEmail);
+            setCustAddr(clients.crcustAddr);
+            setCustMob(clients.crcustMob);
+            setCustPincode(clients.crcustPincode);
+            setCustCode(clients.crcustCode);
         }
     }, [clients]);
     const handleSave = async () => {
         try {
             const newTeacher = {
-                custName:custName,
-                custAddr:custAddr,
-                custMob:custMob,
-                custEmail:custEmail,
-                custPincode:custPincode
+                crcustName:custName,
+                crcustAddr:custAddr,
+                crcustMob:custMob,
+                crcustEmail:custEmail,
+                crcustPincode:custPincode
             };
 
-            await axios.put(`${url}api/customer/${clients._id}`, newTeacher);
+            await axios.put(`${url}api/crcust/${clients._id}`, newTeacher);
             toast.success('Customer added successfully');
             setCustName("");
             setCustEmail("");
             setCustAddr("");
             setCustMob("");
             setCustPincode("");
-           
+            setCustCode("");
         } catch (error) {
            toast.error('Failed to add Customer');
             console.error(error);
@@ -50,13 +53,17 @@ const EditClient = ({show, handleClose, clients}) => {
             </Modal.Header>
             <Modal.Body>
                 <Form>
+                <Form.Group>
+                        <Form.Label>Customer Code</Form.Label>
+                        <Form.Control type="text" value={custCode}  onChange={(e) => setCustCode(e.target.value.toUpperCase())}/>
+                    </Form.Group>
                     <Form.Group>
                         <Form.Label>Customer Name</Form.Label>
-                        <Form.Control type="text" value={custName}  onChange={(e) => setCustName(e.target.value)}/>
+                        <Form.Control type="text" value={custName}  onChange={(e) => setCustName(e.target.value.toUpperCase())}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Customer Address</Form.Label>
-                        <Form.Control type="text" value={custAddr} onChange={(e) => setCustAddr(e.target.value)} />
+                        <Form.Control type="text" value={custAddr} onChange={(e) => setCustAddr(e.target.value.toUpperCase())} />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Customer Mobile</Form.Label>
@@ -96,4 +103,4 @@ const EditClient = ({show, handleClose, clients}) => {
     );
 };
 
-export default EditClient;
+export default EditCrClient;

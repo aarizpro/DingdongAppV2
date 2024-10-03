@@ -13,8 +13,10 @@ const Login = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		try {
-			const url = "http://3.111.150.119/api/auth";
+		try 
+		{
+			
+			const url = "https://v2.dingdong.co.in/api/auth";
 			console.log(data);
 			const { data: res } = await axios.post(url, data);
 			

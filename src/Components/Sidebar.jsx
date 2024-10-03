@@ -45,6 +45,15 @@ const Sidebar = () => {
           <li>
             <Link to={'/greeting'} className="nav-link text-white custom-link" ><i class="bi bi-camera-reels-fill"></i>  Greetings</Link>
           </li>
+          <li>
+            <Link to={'/crcust'} className="nav-link text-white custom-link" ><i class="bi bi-person-bounding-box"></i> Credit Client</Link>
+          </li>
+          <li>
+            <Link to={'/crbook'} className="nav-link text-white custom-link" ><i class="bi bi-amd"></i> CR Book Report</Link>
+          </li>
+          <li>
+            <Link to={'/crreprint'} className="nav-link text-white custom-link" ><i class="bi bi-alarm-fill"></i> Credit Awb </Link>
+          </li>
         </ul>
         <hr />
       </div>

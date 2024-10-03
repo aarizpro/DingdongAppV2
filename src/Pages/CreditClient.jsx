@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import DataTable from 'react-data-table-component';
-import AddClient from '../Components/AddClient';
-import EditClient from '../Components/EditClient';
-const AddCustomer = () => {
+import AddCrClient from '../Components/AddCrClient';
+import EditCrClient from '../Components/EditCrClient';
+const CreditClient = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedClients, setSelectedClients] = useState(null);
   const [showModal1, setShowModal1] = useState(false);
@@ -12,6 +12,7 @@ const AddCustomer = () => {
   const [custAddr, setCustAddr] = useState("");
   const [custEmail, setCustEmail] = useState("");
   const [custMob, setCustMob] = useState("");
+  const [custCode, setCustCode] = useState("");
   const [custPincode, setCustPincode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isButtonVisible, setIsButtonVisible] = useState(true);
@@ -20,6 +21,7 @@ const AddCustomer = () => {
   const [editingId, setEditingId] = useState(null);
   const [search, setSearch] = useState("");
   const url="https://v2.dingdong.co.in/"
+ // const url = "https://free.dingdong.co.in/";
  //const url ="https://allapi-4fmi.onrender.com/";
   
   useEffect(() => {
@@ -39,7 +41,7 @@ const handleClose = () => {
 };
   const fetchMobno = async () => {
     try {
-      const response = await axios.get(`${url}api/customer/search?field=custMob&value=${custMob}`);
+      const response = await axios.get(`${url}api/crcust/search?field=crcustMob&value=${custMob}`);
       if (response.data.length > 0) {
         // If the mobile number exists in the database, disable the button
         setIsButtonVisible(false);
@@ -68,7 +70,7 @@ const handleClose = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${url}api/customer`);
+      const response = await axios.get(`${url}api/crcust`);
       setData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -77,29 +79,33 @@ const handleClose = () => {
   };
 
   const filteredData = data.filter(row => 
-    row.custName.toLowerCase().includes(search.toLowerCase())
+    row.crcustName.toLowerCase().includes(search.toLowerCase())
   );
 
   const columns = [
     {
+        name: 'Code',
+        selector: row => row.crcustCode,
+      },
+    {
       name: 'Name',
-      selector: row => row.custName,
+      selector: row => row.crcustName,
     },
     {
       name: 'Address',
-      selector: row => row.custAddr,
+      selector: row => row.crcustAddr,
     },
     {
       name: 'Pincode',
-      selector: row => row.custPincode,
+      selector: row => row.crcustPincode,
     },
     {
       name: 'Email',
-      selector: row => row.custEmail,
+      selector: row => row.crcustEmail,
     },
     {
       name: 'Mobile No',
-      selector: row => row.custMob,
+      selector: row => row.crcustMob,
     },
     {
       name: 'Action',
@@ -138,21 +144,23 @@ const handleClose = () => {
 
     try {
       if (isEditing) {
-        await axios.put(`${url}api/customer/${editingId}`, {
-          custName,
-          custAddr,
-          custEmail,
-          custMob,
-          custPincode
+        await axios.put(`${url}api/crcust/${editingId}`, {
+            crcustCode:custCode,
+            crcustName:custName,
+            crcustAddr:custAddr,
+            crcustEmail:custEmail,
+            crcustMob:custMob,
+            crcustPincode:custPincode
         });
         toast.success(`Updated ${custName} Successfully`);
       } else {
-        await axios.post(`${url}api/customer`, {
-          custName,
-          custAddr,
-          custEmail,
-          custMob,
-          custPincode
+        await axios.post(`${url}api/crcust`, {
+          crcustCode:custCode,
+          crcustName:custName,
+          crcustAddr:custAddr,
+          crcustEmail:custEmail,
+          crcustMob:custMob,
+          crcustPincode:custPincode
         });
         toast.success(`Saved ${custName} Successfully`);
       }
@@ -162,6 +170,7 @@ const handleClose = () => {
       setCustEmail("");
       setCustMob("");
       setCustPincode("");
+      setCustCode("");
       setIsLoading(false);
       setIsEditing(false);
       setEditingId(null);
@@ -186,7 +195,7 @@ const handleClose = () => {
 
   const deleteAirway = async (id) => {
     try {
-      await axios.delete(`${url}api/customer/${id}`);
+      await axios.delete(`${url}api/crcust/${id}`);
       toast.success('Deleted Successfully');
       fetchData();
     } catch (error) {
@@ -230,14 +239,14 @@ const handleClose = () => {
         </div>
       </div>
       {selectedClients && (
-                <EditClient
+                <EditCrClient
                     show={showModal}
                     handleClose={handleClose}
                     clients={selectedClients}
                     
                 />
             )}
-      <AddClient
+      <AddCrClient
                 show={showModal1}
                 handleClose={handleClose}
        />
@@ -245,4 +254,4 @@ const handleClose = () => {
   );
 }
 
-export default AddCustomer;
+export default CreditClient;

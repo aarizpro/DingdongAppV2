@@ -13,8 +13,8 @@ const Greeting = () => {
 //  const url ="https://allapi-4fmi.onrender.com/";
 //  const url1 = "https://awsupload.onrender.com/";
 
-const url = "http://3.111.150.119/";
-const url1 = "http://3.111.150.119/";
+const url="https://v2.dingdong.co.in/"
+const url1 = "https://v2.dingdong.co.in/";
 
   useEffect(() => {
     fetchProfile();
@@ -77,7 +77,7 @@ const url1 = "http://3.111.150.119/";
       const sendMessages = customers.map(customer => {
         const mobNo = customer.custMob;
         return fetch(
-          `https://bot.betablaster.in/api/send?number=91${mobNo}&type=media&media_url=${cimgurl}&instance_id=${instanceId}&access_token=${accessToken}`,
+          `https://a1.betablaster.in/api/send?number=91${mobNo}&type=media&media_url=${cimgurl}&instance_id=${instanceId}&access_token=${accessToken}`,
           { method: 'GET' }
         );
       });

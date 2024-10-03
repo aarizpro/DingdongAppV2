@@ -11,8 +11,8 @@ const AddCourier = () => {
   const [file, setFile] = useState(null); // Add state for file
   const [isloading, setIsloading] = useState(false);
   const navigate = useNavigate();
-  const url = "http://3.111.150.119/";
-  const url1 = "http://3.111.150.119/";
+  const url="https://v2.dingdong.co.in/"
+  const url1 = "https://v2.dingdong.co.in/";
  //const url ="https://allapi-4fmi.onrender.com/";
  const saveCourier = async (e) => {
     e.preventDefault();
@@ -54,7 +54,7 @@ const AddCourier = () => {
         }
       });
       console.log(response.data);
-      setCimgurl(response.data); // Ensure you are setting a valid string
+      setCimgurl(response.data.location); // Ensure you are setting a valid string
       toast.success("File uploaded successfully");
     } catch (error) {
       toast.error("File upload failed");

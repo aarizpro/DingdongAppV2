@@ -13,7 +13,7 @@ const AddAutoawb = () => {
   const [file, setFile] = useState(null); // State to hold selected file
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const url = "http://3.111.150.119/";
+  const url="https://v2.dingdong.co.in/"
   //const url ="https://allapi-4fmi.onrender.com/";
    useEffect(() => {
     fetchData();

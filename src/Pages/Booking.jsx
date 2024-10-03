@@ -71,19 +71,25 @@ const Booking = () => {
   
   // const dummyEmail1="";
   // const dummyEmail2="";
-  //const url = "http://localhost:5000/";
-  const url = "http://3.111.150.119/";
- //const url ="https://allapi-4fmi.onrender.com/";
+  //const url = "http://localhost:3000/";
+ // const url="https://v2.dingdong.co.in/"
+ 
  const navigate =useNavigate();
   // Function to fetch data for sender's address
   
   const fetchMobno = async () => {
     try {
-      const response = await axios.get(`${url}api/customer/search?field[]=custMob&value[]=${senderMobile}`);
-      setFromAddr(response.data[0].custAddr); // Ensure default value if response data is empty
-      setSenderName(response.data[0].custName);
-      setFromPincode(response.data[0].custPincode);
-      setFromEmail(response.data[0].custEmail);
+      const response = await axios.get(`${url}api/booking/search?field[]=fromMob&value[]=${senderMobile}`);
+      setFromAddr(response.data[0].fromAddr); 
+      setSenderName(response.data[0].fromName);
+      setFromPincode(response.data[0].fromPincode);
+      setFromEmail(response.data[0].fromEmail);
+      setToAddr(response.data[0].toAddr); 
+      setReceiverName(response.data[0].toName);
+      setToPincode(response.data[0].toPincode);
+      setToEmail(response.data[0].toEmail);
+      setReceiverMobile(response.data[0].toMob);
+      
       setDataFound(true);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -183,7 +189,7 @@ const Booking = () => {
       const media_url='https://dingdongcourier.s3.ap-south-1.amazonaws.com/AirwayBill.png';
       const fDate = `${cDate.getDate()}/${cDate.getMonth() + 1}/${cDate.getFullYear()}`;
       const messageText = "Thank You for using Dingdong Courier. %0A Sender: "+senderName+"%0A Your Awb No: "+awbNo+"%0A Send Via:" + courierSite+ " %0A Dated: "+fDate+" %0A To: "+receiverName+"%0A Have a Nice Day...."; 
-      const response = await fetch(`https://bot.betablaster.in/api/send?number=91${senderMobile}&type=media&message=${messageText}&media_url=${media_url}&instance_id=${instanceID}&access_token=${accessToken}`, {
+      const response = await fetch(`https://a1.betablaster.in/api/send?number=91${senderMobile}&type=media&message=${messageText}&media_url=${media_url}&instance_id=${instanceID}&access_token=${accessToken}`, {
         method: 'GET',
       });
       console.log(response.data);
@@ -199,7 +205,7 @@ const Booking = () => {
       const media_url='https://dingdongcourier.s3.ap-south-1.amazonaws.com/AirwayBill.png';
       const fDate = `${cDate.getDate()}/${cDate.getMonth() + 1}/${cDate.getFullYear()}`;
       const messageText = "Thank You for using Dingdong Courier. %0A Sender: "+senderName+"%0A Your Awb No: "+awbNo+"%0A Send Via:" + courierSite+ " %0A Dated: "+fDate+" %0A To: "+receiverName+"%0A Have a Nice Day...."; 
-      const response = await fetch(`https://bot.betablaster.in/api/send?number=91${receiverMobile}&type=media&message=${messageText}&media_url=${media_url}&instance_id=${instanceID}&access_token=${accessToken}`, {
+      const response = await fetch(`https://a1.betablaster.in/api/send?number=91${receiverMobile}&type=media&message=${messageText}&media_url=${media_url}&instance_id=${instanceID}&access_token=${accessToken}`, {
         method: 'GET',
       });
       console.log(response.data);
@@ -403,6 +409,7 @@ const Booking = () => {
          amount:amount,
          courierName:courierName
        });
+       downloadImage();
        toast.success(`Shipment Booked ${awbNo} Successfully..`);
        setReceiverMobile('');
        setFromPincode('600001');
@@ -455,7 +462,7 @@ const Booking = () => {
     }
   }
   const generateImage = async () => {
-    const url1 = "http://3.111.150.119/";
+    const url1="https://v2.dingdong.co.in/"
     //const url1="https://awsupload.onrender.com/";
     if (printRef.current) {
       try {
@@ -624,7 +631,7 @@ const Booking = () => {
         <input
           type="text"
           value={senderName}
-          onChange={(e) => setSenderName(e.target.value)}
+          onChange={(e) => setSenderName(e.target.value.toUpperCase())}
           className="form-control"
           ref={senderNameRef}
           onKeyDown={handleSNamePress}
@@ -637,7 +644,7 @@ const Booking = () => {
         <input
           type="text"
           value={receiverName}
-          onChange={(e) => setReceiverName(e.target.value)}
+          onChange={(e) => setReceiverName(e.target.value.toUpperCase())}
           className="form-control"
           ref={recvNameRef}
           onKeyDown={handleRNamePress}
@@ -650,7 +657,7 @@ const Booking = () => {
       <div className="col-md-6">
         <textarea
           value={fromAddr}
-          onChange={(e) => setFromAddr(e.target.value)}
+          onChange={(e) => setFromAddr(e.target.value.toUpperCase())}
           className="form-control"
           rows="2"
           ref={senderAddrRef}
@@ -660,7 +667,7 @@ const Booking = () => {
       <div className="col-md-6">
         <textarea
           value={toAddr}
-          onChange={(e) => setToAddr(e.target.value)}
+          onChange={(e) => setToAddr(e.target.value.toUpperCase())}
           className="form-control"
           rows="2"
           ref={recvAddrRef}
@@ -800,14 +807,13 @@ const Booking = () => {
         />
       </div>
       {isButtonVisible && (
-        <div className="col-md-6 d-flex justify-content-around">
-          <button className="btn btn-primary" onClick={saveBooking1}>
-            Save & Send
-          </button>
-          <button className="btn btn-primary" onClick={saveBooking}>
-            Save & Download
-          </button>
-        </div>
+        <div className="col-md-6">
+        <button className="btn btn-primary w-100" onClick={saveBooking1}>
+          Book
+        </button>
+      </div>
+         
+    
       )}
     </div>
     <div className="p-4">
@@ -846,7 +852,7 @@ const Booking = () => {
         </div>
       </div>
 
-      <div className="col-6 border border-dark fw-bold fs-2 mb-2">
+      <div className="col-6 border border-dark fw-bold  mb-2" style={{ fontSize: '1.500em' }}>
         <div>
           To, <br />
           {receiverName}

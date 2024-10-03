@@ -4,22 +4,39 @@ import { toast } from 'react-toastify';
 import DataTable from 'react-data-table-component';
 import { CSVLink } from 'react-csv';
 
-const BookingReport = () => {
+const CreditBookingReport = () => {
   const [data, setData] = useState([]);
   const [searchAwb, setSearchAwb] = useState("");
-  const [searchMobile, setSearchMobile] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [custName, setCustName] = useState("");
+  const [custCode, setCustcode] = useState("");
+  const [customers, setCustomers] = useState([]);
+  //const url = "https://free.dingdong.co.in/";
   const url="https://v2.dingdong.co.in/"
-  //const url ="https://allapi-4fmi.onrender.com/";
   
   useEffect(() => {
-    fetchData();
+    fetchCustomers();
+    
   }, []);
 
+  const fetchCustomers = async () => {
+    try {
+      const response = await axios.get(`${url}api/crcust`);
+      setCustomers(response.data);
+    } catch (error) {
+      console.error('Error fetching courier names:', error);
+    }
+  };
+const handleCust=(e)=>{
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    setCustName(selectedOption.value);
+    setCustcode(selectedOption.getAttribute('data-custCode'));
+    fetchData();
+}
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${url}api/booking?sortBy[]=createdAt&sortOrder[]=desc`);
+      const response = await axios.get(`${url}api/crbook/search?field[]=crcustCode&value[]=${custCode}&sortBy[]=createdAt&sortOrder[]=desc`);
       console.log(response.data); // Log data to check structure
       setData(response.data);
     } catch (error) {
@@ -41,29 +58,24 @@ const BookingReport = () => {
     setData(filteredData);
   };
   const filteredData = data.filter(row => 
-    (searchAwb === "" || row.airwayBill.toLowerCase().includes(searchAwb.toLowerCase()))
+    (searchAwb === "" || row.awbno.toLowerCase().includes(searchAwb.toLowerCase()))
   );
 
   console.log("Filtered Data:", filteredData); // Log filtered data
 
   const columns = [
     { name: 'Date', selector: row => row.createdAt, sortable: true, csvKey: 'createdAt' },
-    { name: 'Sender Name', selector: row => row.fromName, sortable: true, csvKey: 'fromName' },
-    { name: 'Sender Address', selector: row => row.fromAddr, sortable: true, csvKey: 'fromAddr' },
-    { name: 'Sender Mobile', selector: row => row.fromMob, sortable: true, csvKey: 'fromMob' },
-    { name: 'Sender Email', selector: row => row.fromEmail, sortable: true, csvKey: 'fromEmail' },
-    { name: 'Sender Pincode', selector: row => row.fromPincode, sortable: true, csvKey: 'fromPincode' },
+    { name: 'Sender Name', selector: row => row.crcustName, sortable: true, csvKey: 'crcustName' },
     { name: 'Receiver Name', selector: row => row.toName, sortable: true, csvKey: 'toName' },
     { name: 'Receiver Address', selector: row => row.toAddr, sortable: true, csvKey: 'toAddr' },
     { name: 'Receiver Mobile', selector: row => row.toMob, sortable: true, csvKey: 'toMob' },
     { name: 'Receiver Email', selector: row => row.toEmail, sortable: true, csvKey: 'toEmail' },
     { name: 'Receiver Pincode', selector: row => row.toPincode, sortable: true, csvKey: 'toPincode' },
-    { name: 'Airway Bill', selector: row => row.airwayBill, sortable: true, csvKey: 'airwayBill' },
+    { name: 'Airway Bill', selector: row => row.awbno, sortable: true, csvKey: 'awbno' },
     { name: 'Weight', selector: row => row.weight, sortable: true, csvKey: 'weight' },
     { name: 'Quantity', selector: row => row.quantity, sortable: true, csvKey: 'quantity' },
-    { name: 'Type', selector: row => row.shipType, sortable: true, csvKey: 'shipType' },
     { name: 'Amount', selector: row => row.amount, sortable: true, csvKey: 'amount' },
-    { name: 'Courier', selector: row => row.courierName, sortable: true, csvKey: 'courierName' },
+    { name: 'Courier', selector: row => row.courier, sortable: true, csvKey: 'courier' },
     {
       name: 'Action',
       cell: row => (
@@ -85,7 +97,7 @@ const BookingReport = () => {
 
   const deleteAirway = async (id) => {
     try {
-      await axios.delete(`${url}api/booking/${id}`);
+      await axios.delete(`${url}api/crbook/${id}`);
       toast.success('Deleted Successfully');
       fetchData();
     } catch (error) {
@@ -98,19 +110,35 @@ const BookingReport = () => {
     <div className="d-flex align-items-center justify-content-center min-vh-100 bg-light">
     <div className="bg-white shadow-lg p-4 rounded-lg container">
       <h1 className="text-center font-weight-bold mb-3">
-        Booking Details
+        Credit Booking Details
       </h1>
       <div className="d-flex justify-content-end mb-3">
         <CSVLink
           data={filteredData}
           headers={csvHeaders}
-          filename={"booking-report.csv"}
+          filename={"CreditBooking.csv"}
           className="btn btn-primary"
         >
           Download CSV
         </CSVLink>
       </div>
       <div className="row g-3 mb-3">
+      <div className="col-auto">
+      <label className="form-label">Customer:</label>
+        <select
+        value={custName}
+        onChange={handleCust}
+        onClick={handleCust}
+        class="form-control "
+   >
+       <option value='' disabled>Select Customer</option>
+       {customers.map((name) => (
+       <option key={name._id} value={name.crcustName} data-key={name._id} data-custCode={name.crcustCode} >
+       {name.crcustName}
+       </option>
+        ))}
+   </select>
+   </div>
         <div className="col-auto">
           <label className="form-label">From Date:</label>
           <input
@@ -188,4 +216,4 @@ const BookingReport = () => {
   );
 };
 
-export default BookingReport;
+export default CreditBookingReport;

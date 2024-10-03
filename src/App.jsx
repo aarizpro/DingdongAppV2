@@ -17,6 +17,9 @@ import Porfile from "./Pages/Porfile";
 import DashBoard from "./Pages/Dashboard";
 import Booking from "./Pages/Booking";
 import AutoBooking from "./Pages/AutoBooking";
+import CreditClient from "./Pages/CreditClient";
+import CreditBookingReport from "./Pages/CreditBookingReport";
+import AwbCRReprint from "./Pages/AwbCRReprint";
 
 function App() {
   const user = localStorage.getItem("token");
@@ -43,6 +46,9 @@ function App() {
 					<Route path="/dashboard" exact element={<DashBoard />} />
 					<Route path="/booking" exact element={<Booking />} />
 					<Route path="/autobook" exact element={<AutoBooking />} />
+					<Route path="/crcust" exact element={<CreditClient />} />
+					<Route path="/crbook" exact element={<CreditBookingReport />} />
+					<Route path="/crreprint" exact element={<AwbCRReprint />} />
 				</>
 			) : (
 				<>
@@ -62,6 +68,9 @@ function App() {
 					<Route path="/dashboard" element={<Navigate replace to="/login" />} />
 					<Route path="/booking" element={<Navigate replace to="/login" />} />
 					<Route path="/autobook" element={<Navigate replace to="/login" />} />
+					<Route path="/crcust" element={<Navigate replace to="/login" />} />
+					<Route path="/crbook" element={<Navigate replace to="/login" />} />
+					<Route path="/crreprint" element={<Navigate replace to="/login" />} />
 				</>
 			)}
 		</Routes>
